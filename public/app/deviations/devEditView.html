@@ -1,4 +1,5 @@
-<h3>{{vm._dvNo}}</h3>
+<h3 ng-hide="vm.new">Deviation - {{vm._dvNo}}</h3>
+<h3 ng-show="vm.new">New Deviation</h3>
 <div ng-hide="vm.new" class="pull-right">
     <button type="submit" ng-click="vm.save(vm.deviation, '', 'closed')" 
             ng-show="vm.qaRole" class="btn btn-warning">Close Deviation</button>

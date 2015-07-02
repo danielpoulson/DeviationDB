@@ -1,0 +1,10 @@
+Welcome to the admin page
+
+<div >
+    <label class="col-sm-2" for="custName">Task Owner :</label>
+    <div class="col-sm-4">
+        <select ng-model="vm.cust" ng-options="cust for cust in vm.customers" class="form-control"></select>
+    </div>
+</div>
+
+<button ng-click="vm.setMode(vm.cust)" class="btn btn-danger">Set</button>

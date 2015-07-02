@@ -17,6 +17,9 @@
                 <li ng-show="vm.identity.currentUser.isAdmin()">
                     <a ui-sref="profile({ id: 'edit' })">Edit User</a>
                 </li>
+                <li ng-show="vm.identity.currentUser.isAdmin()">
+                    <a ui-sref="Admin">Admin</a>
+                </li>
                 <li>
                     <a href="" ng-click="vm.openPass()">Change Password</a>
                 </li>

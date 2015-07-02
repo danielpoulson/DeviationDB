@@ -3,15 +3,23 @@ var Task = require('mongoose').model('Task');
 
 exports.getDeviations = function(req, res) {
     var status = parseInt(req.params.status);
+    var customer = req.params.cust;
+    var search = '';
 
-    Deviation.find({dvClosed: {$lt:status}}, {dvNo:true, dvMatNo:true, dvMatName:true, dvCust:true, 'dvLog.dvLogDate': 1, dvAssign:true, dvClosed:true, dvClass: 1})
+    if (customer === "all"){
+        search = new RegExp(".");
+    } else {
+        search = new RegExp(customer);
+    }
+
+    Deviation.find({$and: [{dvClosed: {$lt:status}}, {$or:[{dvCust:"MFG"}, {dvCust: search}]}]}, {dvNo:true, dvMatNo:true, dvMatName:true, dvCust:true, 'dvLog.dvLogDate': 1, dvAssign:true, dvClosed:true, dvClass: 1})
         .sort({dvNo:1})
         .exec(function(err, collection) {
             if(err){
                 console.log("get deviations : " + err);
             }
-        res.send(collection);
-    });
+            res.send(collection);
+        });
 };
 
 exports.updateDeviation = function(req, res) {
@@ -98,6 +106,17 @@ exports.getClass = function(req, res) {
         res.status(200).send(devClass);
     });
 };
+
+
+exports.getCustomers = function(req, res) {
+
+    Deviation.distinct("dvCust").exec(function (err, customers) {
+            if (err) return handleError(err);
+            res.status(200).send(customers);
+        });
+};
+
+
 
 
 exports.getDashboard = function(req, res) {

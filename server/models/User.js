@@ -38,4 +38,4 @@ function createDefaultUsers() {
   });
 }
 
-//exports.createDefaultUsers = createDefaultUsers;
+exports.createDefaultUsers = createDefaultUsers;

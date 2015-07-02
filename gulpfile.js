@@ -110,8 +110,6 @@ gulp.task('wiredep', function() {
 
 gulp.task('inject', ['wiredep', 'styles', 'templatecache'], function() {
     log('Wire up the app css into the html, and call wiredep ');
-    
-   
 
     return gulp
         .src(config.index)

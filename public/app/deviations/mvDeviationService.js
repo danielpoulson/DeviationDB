@@ -6,13 +6,15 @@
 
     function mvDeviationService($resource) {
 
-        var devList = $resource("/api/deviationlist/:status", {status: '@status'}, {isArray:true} );
+        var devList = $resource("/api/deviationlist/:status/:cust", {status: '@status', cust: '@cust'}, {isArray:true} );
 
         var deviations = $resource("/api/deviations/:Id", {Id: '@id'},
             {'update': {method: 'PUT', params: {Id: '@id'}}, isArray:true});
 
+        var customers = $resource("/api/customers", {isArray:true});
 
         var service = {
+            getCust: getCust,
             getDeviation: getDeviation,
             getDeviations: getDeviations,
             saveDeviation: saveDeviation,
@@ -29,9 +31,9 @@
         }
 
 
-        function getDeviations(status) {
+        function getDeviations(status, cust) {
 
-            return devList.query({status: status});
+            return devList.query({status: status, cust: cust});
         }
 
         function saveDeviation(deviation, DevId) {
@@ -40,10 +42,14 @@
 
         }
 
-
         function saveNewDeviation(deviation) {
 
             return deviations.save(deviation);
+        }
+
+        function getCust(){
+            var cust = customers.query();
+            return cust;
         }
 
 

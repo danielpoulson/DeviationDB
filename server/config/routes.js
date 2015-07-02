@@ -19,7 +19,7 @@ module.exports = function(app, config) {
   //*************Deviation Routes************************
   //Deviations
   app.get('/api/DevItem', deviations.deviationCountYear);
-  app.get('/api/deviationlist/:status', deviations.getDeviations);
+  app.get('/api/deviationlist/:status/:cust', deviations.getDeviations);
   //app.get('/api/deviations', deviations.getDeviations);
   app.get('/api/deviations/:id', deviations.getDeviationById);
   app.get('/api/deviationName/:id', deviations.getDeviationNameById);
@@ -28,6 +28,9 @@ module.exports = function(app, config) {
   app.post('/api/deviations', deviations.createDeviation);
   app.delete('/api/deviation/:id', deviations.deleteDeviation);
 
+  //*************Customer Routes************************
+  //Deviations
+  app.get('/api/customers', deviations.getCustomers);
 
   //Task
 

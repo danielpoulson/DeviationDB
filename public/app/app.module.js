@@ -84,6 +84,12 @@ angular.module('app', ['ngResource', 'ui.router','ui.bootstrap', 'angularFileUpl
           controller: "ProfileCtrl as vm",
           resolve: routeRoleChecks.admin
       })
+      .state("Admin", {
+          url: "/admin",
+          templateUrl: "/app/account/admin.html",
+          controller: "admin as vm",
+          resolve: routeRoleChecks.admin
+      })
       .state("signup", {
           url: "/signup",
           templateUrl: "/app/account/signup.html",

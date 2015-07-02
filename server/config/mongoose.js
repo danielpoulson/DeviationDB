@@ -13,7 +13,7 @@ module.exports = function(config) {
     console.log('DeviationDB db opened');
   });
 
-  //userModel.createDefaultUsers();
+userModel.createDefaultUsers();
 
 };
 

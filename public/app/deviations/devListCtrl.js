@@ -4,9 +4,9 @@
     angular.module('app').controller('DevListCtrl', DevListCtrl);
 
     DevListCtrl.$inject =
-        ['$state', '$timeout', 'IdService', 'mvNotifier', 'mvDeviationService'];
+        ['$state', '$timeout', 'appMode','IdService', 'mvNotifier', 'mvDeviationService'];
 
-    function DevListCtrl($state, $timeout, IdService, mvNotifier, mvDeviationService) {
+    function DevListCtrl($state, $timeout, appMode, IdService, mvNotifier, mvDeviationService) {
         var vm = this;
 
 
@@ -26,7 +26,9 @@
         }
 
         function getDev(status) {
-            return mvDeviationService.getDeviations(status)
+            var cust = appMode.getCust();
+            console.log(cust);
+            return mvDeviationService.getDeviations(status, cust)
                 .$promise.then(function (data) {
                     vm.deviation = data;
                     setPagPage();

@@ -1,6 +1,6 @@
 var express = require('express');
 
-var env = process.env.NODE_ENV || 'build';
+var env = process.env.NODE_ENV || 'dev';
 var port = process.env.PORT || 3030;
 
 var app = express();

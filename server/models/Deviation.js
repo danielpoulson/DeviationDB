@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
+var mongooseToCsv = require('mongoose-to-csv'); //https://www.npmjs.com/package/mongoose-to-csv
 
 var deviationSchema = new Schema({
     Id: Number,
@@ -25,6 +26,28 @@ var deviationSchema = new Schema({
         dvLogDate: Date
         }],
     dvCreated : {type: Date, default: Date.now}
+});
+
+deviationSchema.plugin(mongooseToCsv, {
+    headers: 'DevNo Mat# Material_Name Customer Assigned Created',
+    constraints: {
+        'DevNo': 'dvNo',
+        'Mat#': 'dvMatNo',
+        'Material_Name': 'dvMatName',
+        'Customer': 'dvCust',
+        'Assigned': 'dvAssign'
+    },
+    virtuals: {
+        'Created': function (doc) {
+            var dateString = new Date(doc.dvCreated);
+            var day = dateString.getDay().toString();
+            var mth = dateString.getMonth();
+            var yr = dateString.getYear();
+            var _date = ('0'+ day ).slice(-2) + '/' + ('0'+ mth ).slice(-2)  + '/' + ('0'+ yr ).slice(-2);
+
+            return _date;
+        }
+    }
 });
 
 var Deviation = mongoose.model('Deviation', deviationSchema);

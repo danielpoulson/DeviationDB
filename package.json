@@ -19,6 +19,7 @@
     "express": "^4.10.6",
     "express-session": "^1.9.3",
     "mongoose": "^3.8.20",
+    "mongoose-to-csv": "^0.1.0",
     "morgan": "^1.5.0",
     "multer": "^0.1.7",
     "passport": "^0.2.1",

@@ -49,6 +49,7 @@ module.exports = function(app, config) {
   //app.post('/api/files', files.createFile);
   app.post('/server/upload', files.uploadFile);
   app.delete('/server/delete/:file', files.deletefile);
+  app.get('/api/exportcsv', deviations.dumpDeviation);
 
 //**********Dashboard function ***************
 

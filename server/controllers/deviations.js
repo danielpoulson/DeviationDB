@@ -1,10 +1,13 @@
 var Deviation = require('mongoose').model('Deviation');
 var Task = require('mongoose').model('Task');
+var files = require('../controllers/files');
+var fs = require('fs');
 
 exports.getDeviations = function(req, res) {
     var status = parseInt(req.params.status);
     var customer = req.params.cust;
     var search = '';
+    var csvData = [];
 
     if (customer === "all"){
         search = new RegExp(".");
@@ -170,6 +173,17 @@ exports.getDashboard = function(req, res) {
         res.status(200).send(dashArray);
     });
 
-            
+};
+
+exports.dumpDeviation = function(req, res) {
+    var status = 2;
+
+    Deviation.findAndStreamCsv({dvClosed: {$lt:status}}, {dvNo:true, dvMatNo:true, dvMatName:true, dvCust:true, dvAssign:true, dvClass: true, 'dvCreated': 1, _id: 0})
+        .pipe(fs.createWriteStream('exports/devs.csv'));
+
+    console.log("Files have been created");
+
+    res.sendStatus(200);
+
 
 };

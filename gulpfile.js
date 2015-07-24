@@ -105,7 +105,7 @@ gulp.task('wiredep', function() {
                 ignorePath: 'public',
                 addRootSlash: true
             }))
-        .pipe(gulp.dest(config.views));
+        .pipe(gulp.dest(config.public));
 });
 
 gulp.task('inject', ['wiredep', 'styles', 'templatecache'], function() {
@@ -113,8 +113,9 @@ gulp.task('inject', ['wiredep', 'styles', 'templatecache'], function() {
 
     return gulp
         .src(config.index)
-        .pipe($.inject(gulp.src(config.css), {ignorePath: 'public'})) 
-        .pipe(gulp.dest(config.views));
+        //.pipe($.inject(gulp.src(config.css)))
+        .pipe($.inject(gulp.src(config.css), {ignorePath: 'public'}))
+        .pipe(gulp.dest(config.public));
 });
 
 gulp.task('mvSwig', function(){
@@ -122,42 +123,106 @@ gulp.task('mvSwig', function(){
 
     return gulp
         .src(config.swig)
-        .pipe(gulp.dest(config.build + 'views/'));
+        .pipe(gulp.dest(config.build));
     
 });
 
-gulp.task('optimize', ['inject', 'fonts', 'images','mvSwig'], function() {
-    log('Optimizing the javascript, css, html');
+//gulp.task('optimize', ['inject', 'fonts', 'images','mvSwig'], function() {
+//    log('Optimizing the javascript, css, html');
+//
+//    var assets = $.useref.assets({searchPath: ['./', 'public']});
+//    //TODO: Check dynamic path and remove static
+//    var templateCache = config.temp + config.templateCache.file;
+//    //var templateCache = './tmp/templates.js';
+//    var cssFilter = $.filter('**/*.css');
+//    var jsLibFilter = $.filter('**/lib.js');
+//    var jsAppFilter = $.filter('**/app.js');
+//
+//    return gulp
+//        .src(config.index)
+//        .pipe($.plumber())
+//        //.pipe($.inject(gulp.src(templateCache, {read:false}), {name: 'templates'}))//
+//        .pipe($.inject(gulp.src(templateCache, {name: 'templates'})))
+//        .pipe(assets)
+//        .pipe(cssFilter)
+//        .pipe($.csso())
+//        .pipe(cssFilter.restore())
+//        .pipe(jsLibFilter)
+//        .pipe($.uglify())
+//        .pipe(jsLibFilter.restore())
+//        .pipe(jsAppFilter)
+//        .pipe($.ngAnnotate())
+//        .pipe($.uglify())
+//        .pipe(jsAppFilter.restore())
+//        .pipe($.rev())
+//        .pipe(assets.restore())
+//        .pipe($.useref())
+//        .pipe($.revReplace())
+//        .pipe(gulp.dest(config.build));
+//});
 
-    var assets = $.useref.assets({searchPath: 'public'});
-    //TODO: Check dynamic path and remove static
-    //var templateCache = config.temp + config.templateCache.file;
-    var templateCache = './public/tmp/templates.js';
-    var cssFilter = $.filter('**/*.css');
-    var jsLibFilter = $.filter('**/lib.js');
+gulp.task('optimize', ['inject', 'fonts', 'images'], function() {
+   log('Optimizing the javascript, css, html');
+
+    var assets = $.useref.assets();
     var jsAppFilter = $.filter('**/app.js');
 
-    return gulp
-        .src(config.index)
-        .pipe($.plumber())
-        .pipe($.inject(gulp.src(templateCache, {read:false}), {name: 'templates', ignorePath: 'public'}))
+    return gulp.src(config.index)
         .pipe(assets)
-        .pipe(cssFilter)
-        .pipe($.csso())
-        .pipe(cssFilter.restore())
-        .pipe(jsLibFilter)
-        .pipe($.uglify())
-        .pipe(jsLibFilter.restore())
-        .pipe(jsAppFilter)
-        .pipe($.ngAnnotate())
-        .pipe($.uglify())
-        .pipe(jsAppFilter.restore())
+        .pipe($.if('**/app.js', $.ngAnnotate()))
+        .pipe($.if('*.js', $.uglify()))
+        .pipe($.if('*.css', $.csso()))
         .pipe($.rev())
         .pipe(assets.restore())
         .pipe($.useref())
         .pipe($.revReplace())
-        .pipe(gulp.dest(config.build + 'views/'));
+        .pipe(gulp.dest('build/views'));
 });
+
+/**
+ * Optimize all files, move to a build folder,
+ * and inject them into the new index.html
+ * @return {Stream}
+ */
+//gulp.task('optimize', ['inject', 'mvSwig'], function() {
+//    log('Optimizing the js, css, and html');
+//
+//    var assets = $.useref.assets({searchPath: './'});
+//    // Filters are named for the gulp-useref path
+//    var cssFilter = $.filter('**/*.css');
+//    var jsAppFilter = $.filter('**/' + config.optimized.app);
+//    var jslibFilter = $.filter('**/' + config.optimized.lib);
+//
+//    var templateCache = config.temp + config.templateCache.file;
+//
+//    return gulp
+//        .src(config.index)
+//        .pipe($.plumber())
+//        .pipe($.inject(gulp.src(templateCache, {read:false}), {name: 'templates'}))
+//        .pipe(assets) // Gather all assets from the html with useref
+//        // Get the css
+//        .pipe(cssFilter)
+//        .pipe($.csso())
+//        .pipe(cssFilter.restore())
+//        // Get the custom javascript
+//        .pipe(jsAppFilter)
+//        .pipe($.ngAnnotate({add: true}))
+//        .pipe($.uglify())
+//        //.pipe(getHeader())
+//        .pipe(jsAppFilter.restore())
+//        // Get the vendor javascript
+//        .pipe(jslibFilter)
+//        .pipe($.uglify()) // another option is to override wiredep to use min files
+//        .pipe(jslibFilter.restore())
+//        // Take inventory of the file names for future rev numbers
+//        //.pipe($.rev())
+//        // Apply the concat and file replacement with useref
+//        .pipe(assets.restore())
+//        .pipe($.useref())
+//        // Replace the file names in the html with rev numbers
+//        //.pipe($.revReplace())
+//        .pipe(gulp.dest(config.build));
+//});
 
 gulp.task('serve-build', ['optimize'], function() {
     serve(false /* isDev */);
@@ -263,3 +328,32 @@ function log(msg) {
         $.util.log($.util.colors.blue(msg));
     }
 }
+
+/**
+ * Inject files in a sorted sequence at a specified inject label
+ * @param   {Array} src   glob pattern for source files
+ * @param   {String} label   The label name
+ * @param   {Array} order   glob pattern for sort order of the files
+ * @returns {Stream}   The stream
+ */
+//function inject(src, label, order) {
+//    var options = {read: false};
+//    if (label) {
+//        options.name = 'inject:' + label;
+//    }
+//
+//    return $.inject(orderSrc(src, order), options);
+//}
+//
+///**
+// * Order a stream
+// * @param   {Stream} src   The gulp.src stream
+// * @param   {Array} order Glob array pattern
+// * @returns {Stream} The ordered stream
+// */
+//function orderSrc (src, order) {
+//    //order = order || ['**/*'];
+//    return gulp
+//        .src(src)
+//        .pipe($.if(order, $.order(order)));
+//}

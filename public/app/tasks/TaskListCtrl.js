@@ -19,7 +19,7 @@
         vm.items = [];
         vm.loadAll = loadAll;
         vm.newTask = newTask;
-        vm.numPerPage = 20;
+        vm.numPerPage = 15;
         vm.open = open;
         vm.openTask = openTask;
         vm.projectName = {};

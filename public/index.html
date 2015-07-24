@@ -1,0 +1,209 @@
+<!DOCTYPE 5>
+<html>
+
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+
+    <!-- build:css ../styles/lib.css -->
+    <!-- bower:css -->
+    <link rel="stylesheet" href="../bower_components/toastr/toastr.css" />
+    <link rel="stylesheet" href="../bower_components/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="../bower_components/angular-chart.js/dist/angular-chart.css" />
+    <!-- endbower -->
+    <!-- endbuild -->
+
+    <!-- build:css ../styles/app.css -->
+    <!-- inject:css -->
+    <link rel="stylesheet" href="/tmp/site.css">
+    <!-- endinject -->
+    <!-- endbuild -->
+
+    <base href="/">
+    <!--base(href="https://cryptic-bayou-4879.herokuapp.com/")-->
+    <title>DeviationDB</title>
+</head>
+
+<script>
+    var bootstrappedUserObject = {{bootstrappedUser|raw|json}};
+</script>
+
+
+<body ng-app="app">
+<div class="container">
+    <div class="topband">
+        <section class="col-sm-12">
+            <div class="col-sm-5">
+                <h3 class="topband_h1">Deviation Database</h3>
+            </div>
+            <div class="col-sm-7">
+                <div ng-include="'/app/account/navbar-login.html'"></div>
+            </div>
+        </section>
+    </div>
+    <div class="navbar navbar-default" ng-controller="IndexCtrl">
+        <div class="navbar-header">
+            <button type="button" data-toggle="collapse" data-target=".navbar-collapse" class="navbar-toggle">
+                <span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
+            </button>
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav dp-main-nav">
+                <li>
+                    <a href="/"><span class="glyphicon glyphicon-home"></span>   Home</a>
+                </li>
+                <li>
+                    <a ui-sref="deviationList">
+                        <span class="glyphicon glyphicon-file"></span> Deviation List
+                    </a>
+                </li>
+                <li class="dropdown">
+                    <a ui-sref="tasks({id:'search'})">
+                        <span class="glyphicon glyphicon-tasks"></span> Task Search
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <section class="content">
+        <div ui-view></div>
+    </section>
+    <footer class="container text-center col-sm-12">
+        <p>&copy; 2015 Daniel Poulson.</p>
+    </footer>
+
+</div>
+
+<!-- build:js ../js/lib.js -->
+<!-- bower:js -->
+<script src="../bower_components/es5-shim/es5-shim.js"></script>
+<script src="../bower_components/jquery/dist/jquery.js"></script>
+<script src="../bower_components/toastr/toastr.js"></script>
+<script src="../bower_components/angular/angular.js"></script>
+<script src="../bower_components/angular-resource/angular-resource.js"></script>
+<script src="../bower_components/bootstrap/dist/js/bootstrap.js"></script>
+<script src="../bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+<script src="../bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+<script src="../bower_components/angular-file-upload/angular-file-upload.js"></script>
+<script src="../bower_components/angular-messages/angular-messages.js"></script>
+<script src="../bower_components/Chart.js/Chart.js"></script>
+<script src="../bower_components/angular-chart.js/dist/angular-chart.js"></script>
+<!-- endbower -->
+<!-- endbuild -->
+
+<!-- build:js ../js/app.js -->
+<!-- inject:js -->
+
+
+<script src="/app/app.module.js"></script>
+
+
+<script src="/app/account/AuthService.js"></script>
+
+
+<script src="/app/account/ChangePassServ.js"></script>
+
+
+<script src="/app/account/IdService.js"></script>
+
+
+<script src="/app/account/NavBarLoginCtrl.js"></script>
+
+
+<script src="/app/account/ProfileCtrl.js"></script>
+
+
+<script src="/app/account/UserDataService.js"></script>
+
+
+<script src="/app/account/UserServ.js"></script>
+
+
+<script src="/app/account/admin.controller.js"></script>
+
+
+<script src="/app/common/IndexCtrl.js"></script>
+
+
+<script src="/app/common/app-mode.service.js"></script>
+
+
+<script src="/app/common/changeExt.js"></script>
+
+
+<script src="/app/common/changeStatus.js"></script>
+
+
+<script src="/app/common/dvDatePicker.js"></script>
+
+
+<script src="/app/common/dvDayNumber.js"></script>
+
+
+<script src="/app/common/dvTaskCount.js"></script>
+
+
+<script src="/app/common/forminput.js"></script>
+
+
+<script src="/app/common/getItemCount.js"></script>
+
+
+<script src="/app/common/mvNotifier.js"></script>
+
+
+<script src="/app/common/startFrom.js"></script>
+
+
+<script src="/app/deviations/devEditCtrl.js"></script>
+
+
+<script src="/app/deviations/devListCtrl.js"></script>
+
+
+<script src="/app/deviations/devPrintCtrl.js"></script>
+
+
+<script src="/app/deviations/dvListSearch.js"></script>
+
+
+<script src="/app/deviations/mvDeviationService.js"></script>
+
+
+<script src="/app/files/dpFiles.js"></script>
+
+
+<script src="/app/files/mvFile.js"></script>
+
+
+<script src="/app/main/MainCtrl.js"></script>
+
+
+<script src="/app/main/mvDashboardService.js"></script>
+
+
+<script src="/app/tasks/TaskDetailCtrl.js"></script>
+
+
+<script src="/app/tasks/TaskListCtrl.js"></script>
+
+
+<script src="/app/tasks/mvTask.js"></script>
+
+
+<!-- endinject -->
+
+<!-- templates:js -->
+
+<!-- endinject -->
+
+<!-- endbuild -->
+
+
+
+
+</body>
+
+</html>
+
+

@@ -18,11 +18,11 @@
         build: './build/',
         public: public,
         css: temp + 'site.css',
-        fonts: public + 'vendor/bootstrap/fonts/**/*.*',
+        fonts: './bower_components/bootstrap/fonts/**/*.*',
         html: publicApp + '**/*.html',
         htmltemplates: publicApp + '**/*.html',
         images: public + 'images/**/*.*',
-        index: views + 'layout.html',
+        index: public + 'index.html',
         js: [
             publicApp + '**/*.module.js',
             publicApp + '**/*.js',
@@ -31,12 +31,18 @@
         stylus: public + 'css/site.styl',
         server: server,
         swig: [
-            views + '**/*.html'
+            public + '*.html'
             //'!' + views + 'layout.html'
         ],
         temp: temp,
         views: views,
-
+        /**
+         * optimized files
+         */
+        optimized: {
+            app: 'app.js',
+            lib: 'lib.js'
+        },
         /**
          * template cache
          */

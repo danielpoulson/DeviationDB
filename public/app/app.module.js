@@ -3,6 +3,13 @@
     'use strict';
 
 angular.module('app', ['ngResource', 'ui.router','ui.bootstrap', 'angularFileUpload', 'chart.js', 'ngMessages']);
+
+
+    angular.module('app').factory('dpSearchTermGlobal', function() {
+        return {
+            dpSearchGlobal : ''
+        };
+    });
     
     angular.module('app').config(function($stateProvider, $locationProvider, $urlRouterProvider,$httpProvider ) {
   var routeRoleChecks = {

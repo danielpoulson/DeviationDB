@@ -4,9 +4,9 @@
     angular.module('app').controller('DevListCtrl', DevListCtrl);
 
     DevListCtrl.$inject =
-        ['$state', '$timeout', 'appMode','IdService', 'mvNotifier', 'mvDeviationService'];
+        ['$state', '$timeout', 'appMode','IdService', 'mvNotifier', 'mvDeviationService', 'dpSearchTermGlobal'];
 
-    function DevListCtrl($state, $timeout, appMode, IdService, mvNotifier, mvDeviationService) {
+    function DevListCtrl($state, $timeout, appMode, IdService, mvNotifier, mvDeviationService, dpSearchTermGlobal) {
         var vm = this;
 
 
@@ -23,6 +23,7 @@
 
         function activate() {
             getDev(1);
+            vm.queryProject = dpSearchTermGlobal.dpSearchGlobal;
         }
 
         function getDev(status) {
@@ -38,6 +39,7 @@
 
         function getDeviation (DevId) {
             if(IdService.currentUser) {
+                dpSearchTermGlobal.dpSearchGlobal = vm.queryProject;
                 $state.go('deviationEdit.detail', {id:DevId});
             } else {
                 mvNotifier.error('You are not logged in!');

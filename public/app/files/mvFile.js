@@ -2,9 +2,9 @@
     'use strict';
 
     var serviceId = 'mvFile';
-    angular.module('app').factory(serviceId, ['$resource', mvFile  ]);
+    angular.module('app').factory(serviceId, ['$resource', '$http', mvFile  ]);
 
-    function mvFile($resource) {
+    function mvFile($resource, $http) {
 
 
         var fileRes = $resource('/api/files/:fileId', {fileId: '@id'},
@@ -15,6 +15,7 @@
             deleteFile: deleteFile,
             //getFile: getFile,
             getFiles: getFiles,
+            getFileCount:getFileCount,
             //getFileCount: getFileCount,
             //getDeviationFiles: getDeviationFiles,
             //saveFile: saveFile,
@@ -36,6 +37,11 @@
 
         function saveNewFile(file) {
             return fileRes.save(file);
+        }
+
+        function getFileCount(projId){
+            return $http.get('/api/filecount/' + projId);
+
         }
 
 

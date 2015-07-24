@@ -45,10 +45,11 @@
       </tr>
     </tbody>
   </table>
-  <div class="input-group search pull-right col-md-2">
+
+  <div class="input-group search pull-right">
     <pagination total-items="vm.totalItems" ng-model="vm.currentPage" items-per-page="vm.numPerPage" class="pagination-sm handPointer"></pagination>
   </div>
-  <div ng-show="vm.dpShowButton" class="addTaskButton pull-left">
+  <div ng-show="vm.dpShowButton" class="addTaskButton pull-left col-md-2">
     <button type="button" ng-click="vm.openTask('new')" class="btn btn-success">Add Task</button>
   </div>
 </section>

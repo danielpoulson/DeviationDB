@@ -4,9 +4,9 @@
     angular.module('app').controller('DevEditCtrl', DevEditCtrl);
 
     DevEditCtrl.$inject =
-        ['$location', '$state', '$stateParams', 'getItemCount', 'IdService', 'mvNotifier', 'UserDataService', 'mvDeviationService', 'dvTaskCount'];
+        ['$location', '$state', '$stateParams', 'getItemCount', 'IdService', 'mvNotifier', 'UserDataService', 'mvDeviationService', 'mvFile', 'dvTaskCount'];
 
-    function DevEditCtrl($location, $state, $stateParams, getItemCount, IdService, mvNotifier, UserDataService, mvDeviationService, dvTaskCount) {
+    function DevEditCtrl($location, $state, $stateParams, getItemCount, IdService, mvNotifier, UserDataService, mvDeviationService, mvFile, dvTaskCount) {
         var vm = this;
         var currentUser = IdService.currentUser.firstName + " " + IdService.currentUser.lastName;
         var val = $stateParams.id;
@@ -16,11 +16,11 @@
         vm.cancelEdit = cancelEdit;
         vm.closed = "0";
         vm.dvPrint = dvPrint;
-        vm.filecount = 5;
         vm.locked = false;
         vm._dvNo = '';
         vm.qaRole = false;
         vm.taskcount = '';
+        vm.filecount = 0;
         vm.title = "Deviation";
         vm.open = open;
         vm.submitted = false;
@@ -51,6 +51,7 @@
             'Documentation',
             'Formulation Difficulty',
             'Leakers',
+            'Not Assigned',
             'Out of Specification',
             'Operator Error',
             'Procedure',
@@ -67,6 +68,7 @@
 
             getDevDetails();
             getTaskCount();
+            getFileCount();
             setRole();
 
 
@@ -124,6 +126,17 @@
             }
 
         }
+
+        function getFileCount(){
+            var val = $stateParams.id;
+            if (val != 'new') {
+                return mvFile.getFileCount(val)
+                    .then(function(count){
+                        vm.filecount = count.data;
+                    });
+            }
+
+        }
         
         //Function move to the server
 
@@ -174,6 +187,7 @@
                 //data.dvNo = vm._dvNo;
                 if (!vm.deviation.dvAssign){
                     data.dvAssign = "Quality Assurance";
+                    data.dvClass = "Not Assigned";
                 }
 
                 return mvDeviationService.saveNewDeviation(data)

@@ -58,3 +58,9 @@ exports.deletefile = function (req, res) {
 
 };
 
+exports.getFileCount = function(req,res){
+    File.count({fsDevNo:req.params.id}, function(err, fileCount){
+        res.send(fileCount.toString());
+    });
+};
+

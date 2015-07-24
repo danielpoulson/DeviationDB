@@ -60,6 +60,7 @@ module.exports = function(app, config) {
 
 //********* Helper Routes**********
   app.get('/api/taskcount/:id', tasks.getTaskCount);
+  app.get('/api/filecount/:id', files.getFileCount);
 
 //  app.get('/partials/*', function(req, res) {
 //    res.render('../../public/app/' + req.params[0]);

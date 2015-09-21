@@ -24,11 +24,6 @@
     <title>DeviationDB</title>
 </head>
 
-<script>
-    var bootstrappedUserObject = {{bootstrappedUser|raw|json}};
-</script>
-
-
 <body ng-app="app">
 <div class="container">
     <div class="topband">
@@ -73,6 +68,11 @@
     </footer>
 
 </div>
+<script>
+    var bootstrappedUserObject = {{bootstrappedUser|json}};
+</script>
+
+
 
 <!-- build:js ../js/lib.js -->
 <!-- bower:js -->
@@ -122,6 +122,27 @@
 <script src="/app/account/admin.controller.js"></script>
 
 
+<script src="/app/main/MainCtrl.js"></script>
+
+
+<script src="/app/main/mvDashboardService.js"></script>
+
+
+<script src="/app/deviations/devEditCtrl.js"></script>
+
+
+<script src="/app/deviations/devListCtrl.js"></script>
+
+
+<script src="/app/deviations/devPrintCtrl.js"></script>
+
+
+<script src="/app/deviations/dvListSearch.js"></script>
+
+
+<script src="/app/deviations/mvDeviationService.js"></script>
+
+
 <script src="/app/common/IndexCtrl.js"></script>
 
 
@@ -155,33 +176,6 @@
 <script src="/app/common/startFrom.js"></script>
 
 
-<script src="/app/deviations/devEditCtrl.js"></script>
-
-
-<script src="/app/deviations/devListCtrl.js"></script>
-
-
-<script src="/app/deviations/devPrintCtrl.js"></script>
-
-
-<script src="/app/deviations/dvListSearch.js"></script>
-
-
-<script src="/app/deviations/mvDeviationService.js"></script>
-
-
-<script src="/app/files/dpFiles.js"></script>
-
-
-<script src="/app/files/mvFile.js"></script>
-
-
-<script src="/app/main/MainCtrl.js"></script>
-
-
-<script src="/app/main/mvDashboardService.js"></script>
-
-
 <script src="/app/tasks/TaskDetailCtrl.js"></script>
 
 
@@ -189,6 +183,12 @@
 
 
 <script src="/app/tasks/mvTask.js"></script>
+
+
+<script src="/app/files/dpFiles.js"></script>
+
+
+<script src="/app/files/mvFile.js"></script>
 
 
 <!-- endinject -->

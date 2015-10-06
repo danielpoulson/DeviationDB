@@ -1,0 +1,7 @@
+<% if(!!'bootstrappedUser'){ %>
+        <script>
+            var bootstrappedUserObject = <%-JSON.stringify(bootstrappedUser)%>;
+        </script>
+<% } else { %>
+    <p>I got here</p>
+<% } %>

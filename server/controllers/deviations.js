@@ -176,9 +176,8 @@ exports.getDashboard = function(req, res) {
 };
 
 exports.dumpDeviation = function(req, res) {
-    var status = 2;
 
-    Deviation.findAndStreamCsv({dvClosed: {$lt:status}}, {dvNo:true, dvMatNo:true, dvMatName:true, dvCust:true, dvAssign:true, dvClass: true, 'dvCreated': 1, _id: 0})
+    Deviation.findAndStreamCsv({dvClosed: {$lt:req.params.id}}, {dvNo:true, dvMatNo:true, dvMatName:true, dvCust:true, dvAssign:true, dvClass: 1, 'dvCreated': 1, _id: 0})
         .pipe(fs.createWriteStream('exports/devs.csv'));
 
     console.log("Files have been created");

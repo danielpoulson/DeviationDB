@@ -49,7 +49,7 @@ module.exports = function(app, config) {
   //app.post('/api/files', files.createFile);
   app.post('/server/upload', files.uploadFile);
   app.delete('/server/delete/:file', files.deletefile);
-  app.get('/api/exportcsv', deviations.dumpDeviation);
+  app.get('/api/exportcsv/:id', deviations.dumpDeviation);
 
 //**********Dashboard function ***************
 
@@ -79,7 +79,7 @@ module.exports = function(app, config) {
 //	});    
 
   app.get('*', function(req, res) {
-      //console.log(req.user);
+//      console.log(req.user);
     res.render('index', {
       bootstrappedUser: req.user
         

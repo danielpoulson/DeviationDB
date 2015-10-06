@@ -1,5 +1,4 @@
 var express = require('express');
-var swig = require('swig');
 var stylus = require('stylus');
 var logger = require('morgan');
 var session = require('express-session');
@@ -14,11 +13,16 @@ module.exports = function (app, config) {
         return stylus(str).set('filename', path);
     }
 
-//     This is where all the magic happens!
-    app.engine('html', swig.renderFile);
-
+//  This is where all the magic happens!
+//    app.engine('html', swig.renderFile);
+//
+//    app.set('views', config.views);
+//    app.set('view engine', 'html');
+    
+    // set the view engine to ejs
     app.set('views', config.views);
-    app.set('view engine', 'html');
+    app.set('view engine', 'ejs');
+
 
     app.use(logger('dev'));
     app.use(cookieParser());

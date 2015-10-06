@@ -29,13 +29,14 @@ var deviationSchema = new Schema({
 });
 
 deviationSchema.plugin(mongooseToCsv, {
-    headers: 'DevNo Mat# Material_Name Customer Assigned Created',
+    headers: 'DevNo Mat# Material_Name Customer Assigned Created Class',
     constraints: {
         'DevNo': 'dvNo',
         'Mat#': 'dvMatNo',
         'Material_Name': 'dvMatName',
         'Customer': 'dvCust',
-        'Assigned': 'dvAssign'
+        'Assigned': 'dvAssign',
+        'Class': 'dvClass'
     },
     virtuals: {
         'Created': function (doc) {

@@ -46,6 +46,7 @@
       username: vm.fUsers.username,
       firstName: vm.fUsers.firstName,
       lastName: vm.fUsers.lastName,
+      email: vm.fUsers.email,
       roles: vm.fUsers.roles
 
     };
@@ -92,6 +93,7 @@
             vm.users.splice(index, 1);
             vm.fUsers.firstName = 'First Name';
             vm.fUsers.lastName = 'Last Name';
+            vm.fUsers.email = 'Email';
             vm.fUsers.roles = 'Roles';
 
           });

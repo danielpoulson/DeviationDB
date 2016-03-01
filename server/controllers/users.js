@@ -7,6 +7,13 @@ exports.getUsers = function(req, res) {
   });
 };
 
+exports.getUserEmail = function(user) {
+  var user = user.split(" ");
+  var email = "dan@sillyboy.com";
+  return User.find({$and: [{ firstName: user[0] }, { lastName: user[1] }]},{email:1, "_id" : 0});
+  
+};
+
 exports.getAllUsers = function(req, res) {
     User.find({},{firstName : 1, lastName : 1, "_id" : 0}).exec(function(err, collection) {
         var users = [];
@@ -50,6 +57,7 @@ exports.updateUser = function(req, res) {
   req.user.firstName = userUpdates.firstName;
   req.user.lastName = userUpdates.lastName;
   req.user.username = userUpdates.username;
+  req.user.email = userUpdates.email;
   if(userUpdates.password && userUpdates.password.length > 0) {
     req.user.sale = encrypt.createSalt();
     req.user.hashed_pwd = encrypt.hashPwd(req.user.sale, userUpdates.password);

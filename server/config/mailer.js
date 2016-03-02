@@ -10,8 +10,8 @@ exports.sendMail = function(toEmail, emailType, emailActivity) {
 
   var auth = {
     auth: {
-      api_key: 'key-d4288ca098eebff7793dfbe2aa943a7f',
-      domain: 'sandbox5c555bb04a2c41e6b4b4e733d1d0fe50.mailgun.org'
+      api_key: 'key-1234567',
+      domain: 'domain.mailgun.org'
     }
   }
 
@@ -22,7 +22,7 @@ exports.sendMail = function(toEmail, emailType, emailActivity) {
         console.log('Error: ' + err);
       }
     var html = `<html><body STYLE="font-size: 12pt/14pt; font-family:sans-serif">
-      <h3>You have been assigned this ${emailType}</h3></br> ${emailActivity} </br> ${html} </body></html>`;
+      <h3>You have been assigned ownership of this ${emailType}</h3></br> ${emailActivity} </br> ${html} </body></html>`;
     
     nodemailerMailgun.sendMail({
         from: 'poulsondaniel@gmail.com',

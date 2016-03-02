@@ -33,12 +33,12 @@ module.exports = {
         views: rootPath + 'public/'
         //port: process.env.PORT || 3030
     },
-    build: {
+    production: {
+        db: 'mongodb://localhost/DeviationDB',
         rootPath: rootPath,
-        staticFiles: rootPath + 'build/',
-        appViews: rootPath + 'build/views/',
-        views: rootPath + 'build/views/',
-        db: 'mongodb://localhost/DeviationDB'
+        staticFiles: rootPath + 'public/',
+        appViews: rootPath + 'public/views/',
+        views: rootPath + 'public/'
         //port: process.env.PORT || 8080
     }
 };

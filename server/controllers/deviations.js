@@ -2,6 +2,9 @@ var Deviation = require('mongoose').model('Deviation');
 var Task = require('mongoose').model('Task');
 var files = require('../controllers/files');
 var fs = require('fs');
+var Users = require('../controllers/users');
+var mailer = require('../config/mailer.js');
+var dateFunc = require('../utilities/date_functions');
 
 exports.getDeviations = function(req, res) {
     var status = parseInt(req.params.status);
@@ -32,7 +35,30 @@ exports.updateDeviation = function(req, res) {
             console.log({reason:err.toString()});
         }
         res.send(200);
+
+        if(req.body.dvAssignChanged){
+            createEmail(req.body);
+        }
+        
     });
+};
+
+function createEmail(body){
+    var _DateCreated = dateFunc.dpFormatDate(body.dvCreated);
+    var emailType = "Deviation";
+    var emailActivity = `<b>Deviation - </b><em>${body.dvNo}</em> </br>
+        <b>Deviation Description:</b><i>${body.dvMatName} <b>Date Created</b> ${_DateCreated}</i>`;
+// TODO: Not the worlds nicest Promise using a timeout need to rework and improve.
+    var p = new Promise(function(resolve, reject) {
+        var toEmail = Users.getUserEmail(body.dvAssign);
+       setTimeout(() => resolve(toEmail), 2000);
+    }).then(function(res){
+        var _toEmail = res[0].email;
+        mailer.sendMail(_toEmail, emailType, emailActivity);
+    }).catch(function (err) {
+      console.log(err);
+    });
+
 };
 
 
@@ -100,11 +126,13 @@ exports.deviationCountYear = function(req, res) {
 };
 
 exports.getClass = function(req, res) {
-    //TODO remove static route
-    var search = /DV15/;
+    // var search = /DV15/;
+    //TODO: Add an options to select between the last 3 years of data or current year.
+    //Currently the getClass returns all data but it should return no more than 3 years of data
+    //To focus in on the current trends a one year current focus option would be good.
 
-    Deviation.aggregate({$match : {dvNo:{$in : [/^DV15.*$/]}}},
-        {$group : {_id : "$dvClass", total : {$sum :1}}}, {$sort: {total : -1}}).exec(function (err, devClass) {
+    // Deviation.aggregate({$match : {dvNo:{$in : [/^DV15.*$/]}}},
+    Deviation.aggregate({$group : {_id : "$dvClass", total : {$sum :1}}}, {$sort: {total : -1}}).exec(function (err, devClass) {
         if (err) return handleError(err);
         res.status(200).send(devClass);
     });
@@ -119,21 +147,18 @@ exports.getCustomers = function(req, res) {
         });
 };
 
-
-
-
 exports.getDashboard = function(req, res) {
     //TODO: This block is a bit of a mess not really sure what is the best approach for making all these calls. D.Poulson 05/04/2015
     var dashArray = {
-        year1: "2013",
-        y1open : 253,
-        y1Closed : 250,
-        year2: "2014",
-        y2open : 325,
-        y2Closed : 315,
-        year3: "2015",
-        y3open : 69,
-        y3Closed : 35,
+        year1: "2014",
+        y1open : 325,
+        y1Closed : 315,
+        year2: "2015",
+        y2open : 0,
+        y2Closed : 0,
+        year3: "2016",
+        y3open : 0,
+        y3Closed : 0,
         devClosed1 : 0,
         devClosed2 : 30,
         devClosed3 : 40,
@@ -141,10 +166,11 @@ exports.getDashboard = function(req, res) {
         capa2: 0      
     };
     
-  
-    var today = new Date();
-    var todayless30 = today.setDate(today.getDate()-30);
-    var todayless60 = today.setDate(today.getDate()-60);
+   var dates = dateFunc.dpDashDates();
+    var today = dates[0];
+    var todayless30 = dates[1];
+    var todayless60 = dates[2];
+
     
     
     var promise = Task.count({TKCapa : 1, TKStat: {$lt: 5}}).exec();
@@ -166,8 +192,15 @@ exports.getDashboard = function(req, res) {
         return Deviation.count({dvNo:{$in : [/^DV15.*$/]}}).exec();
         //TODO: Remove static variables
     }).then(function(totalDev){
-        dashArray.y3open = totalDev;
+        dashArray.y2open = totalDev;
         return Deviation.count({dvClosed:1, dvNo:{$in : [/^DV15.*$/]}}).exec();
+    }).then(function(closedDev){
+        dashArray.y2Closed = closedDev;
+        return Deviation.count({dvNo:{$in : [/^DV16.*$/]}}).exec();
+        //TODO: Remove static variables
+    }).then(function(totalDev){
+        dashArray.y3open = totalDev;
+        return Deviation.count({dvClosed:1, dvNo:{$in : [/^DV16.*$/]}}).exec();
     }).then(function(closedDev){
         dashArray.y3Closed = closedDev;
         res.status(200).send(dashArray);

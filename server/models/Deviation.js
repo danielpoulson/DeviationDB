@@ -25,7 +25,8 @@ var deviationSchema = new Schema({
         dvLogBy : String,
         dvLogDate: Date
         }],
-    dvCreated : {type: Date, default: Date.now}
+    dvCreated : {type: Date, default: Date.now},
+    dvAssignChanged : {type: Boolean, default: false}
 });
 
 deviationSchema.plugin(mongooseToCsv, {

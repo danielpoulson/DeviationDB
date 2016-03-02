@@ -60,11 +60,11 @@ function createEmail(body){
     var p = new Promise(function(resolve, reject) {
         var toEmail = Users.getUserEmail(body.TKChamp);
        setTimeout(() => resolve(toEmail), 2000);
-    });
-
-    p.then(function(res){
+    }).then(function(res){
         var _toEmail = res[0].email;
         mailer.sendMail(_toEmail, emailType, emailActivity);
+    }).catch(function (err) {
+      console.log(err);
     });
 
 };

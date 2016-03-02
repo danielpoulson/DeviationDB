@@ -138,10 +138,10 @@ gulp.task('optimize', ['inject', 'fonts', 'images'], function() {
         .pipe($.if('**/app.js', $.ngAnnotate()))
         .pipe($.if('*.js', $.uglify()))
         .pipe($.if('*.css', $.csso()))
-        .pipe($.rev())
+        // .pipe($.rev())
         .pipe(assets.restore())
         .pipe($.useref())
-        .pipe($.revReplace())
+        // .pipe($.revReplace())
         .pipe(gulp.dest('build/views'));
 });
 
@@ -210,6 +210,7 @@ function startBrowserSync(isDev) {
     var options = {
         proxy: 'localhost:' + port,
         port: 3000,
+        browser: "google chrome",
         files: isDev ? [
             config.public + '**/*.*',
             '!' + config.stylus,

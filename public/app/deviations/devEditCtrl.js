@@ -11,6 +11,7 @@
         var currentUser = IdService.currentUser.firstName + " " + IdService.currentUser.lastName;
         var val = $stateParams.id;
 
+        vm.assignOld = '';
         vm.new = true;
         vm.getDevDetails = getDevDetails;
         vm.cancelEdit = cancelEdit;
@@ -49,11 +50,13 @@
             'Contamination',
             'Customer Complaint',
             'Documentation',
+            'Equipment - Maintenance',
             'Formulation Difficulty',
             'Leakers',
             'Not Assigned',
             'Out of Specification',
             'Operator Error',
+            'Planned Deviation',
             'Procedure',
             'Transport Issue',
             'Stock Discrepancy',
@@ -95,15 +98,13 @@
             var val = $stateParams.id;
 
             if (val != 'new') {
-              // TODO: 1. If not new set the dvAssign to a new placeholder value
-              //This will be used to allow a comparsion of whether the assigned person has changed
-              // This feature will be used to alert people that they are no the owner.
                 vm.new = false;
                 return mvDeviationService.getDeviation(val)
                     .$promise.then(function(data) {
                         vm.deviation = data;
                         vm._dvNo = data.dvNo;
                         vm.locked = data.dvClosed;
+                        vm.assignOld = data.dvAssign;
                     }).then(function(){
                         //vm.users = UserDataService.getAllUsers();
                             return UserDataService.getAllUsers()
@@ -152,7 +153,6 @@
 
 
     function save (data, form, logMessage) {
-      // TODO: Check to see if the assigned person has changed if so set the owner change flag
         vm.submitted = true;
         if(form.$valid || logMessage == 'closed') {
             //Log out an audit trail message
@@ -167,9 +167,9 @@
 
             data.dvLog = vm.deviation.dvLog;
 
-            //data.dvAssign = vm.dvUser;
             if(val != 'new'){
                 data.dvAssign = vm.dvUser;
+                data.dvAssignChanged = vm.dvUser === vm.assignOld ? false : true;
                 return mvDeviationService.saveDeviation(data, val)
                     .$promise.then(success, failed);
 

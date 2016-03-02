@@ -22,7 +22,8 @@
         html: publicApp + '**/*.html',
         htmltemplates: publicApp + '**/*.html',
         images: public + 'images/**/*.*',
-        index: public + 'index.html',
+        // index: public + 'index.html',
+        index: public + 'index.ejs',
         js: [
             publicApp + '**/*.module.js',
             publicApp + '**/*.js',

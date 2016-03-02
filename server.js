@@ -1,6 +1,6 @@
 var express = require('express');
 
-var env = process.env.NODE_ENV || 'dev';
+var env = process.env.NODE_ENV || 'production';
 var port = process.env.PORT || 3030;
 
 var app = express();
@@ -21,7 +21,7 @@ console.log('NODE_ENV=' + env);
 
 
 switch (env) {
-    case 'build':
+    case 'production':
         console.log('** BUILD **');
         break;
     default:

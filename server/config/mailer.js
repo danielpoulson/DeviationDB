@@ -5,13 +5,13 @@ var rootPath = path.normalize(__dirname);
 var fs = require('fs');
 
 exports.sendMail = function(toEmail, emailType, emailActivity) {
-  var emailSubject = "You have assigned ownership of a " + emailType;
+  var emailSubject = "You have been assigned ownership of a " + emailType;
   // This is your API key that you retrieve from www.mailgun.com/cp (free up to 10K monthly emails)
 
   var auth = {
     auth: {
-      api_key: 'key-1234567',
-      domain: 'domain.mailgun.org'
+      api_key: 'key-d4288ca098eebff7793dfbe2aa943a7f',
+      domain: 'sandbox5c555bb04a2c41e6b4b4e733d1d0fe50.mailgun.org'
     }
   }
 

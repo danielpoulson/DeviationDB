@@ -95,6 +95,9 @@
             var val = $stateParams.id;
 
             if (val != 'new') {
+              // TODO: 1. If not new set the dvAssign to a new placeholder value
+              //This will be used to allow a comparsion of whether the assigned person has changed
+              // This feature will be used to alert people that they are no the owner.
                 vm.new = false;
                 return mvDeviationService.getDeviation(val)
                     .$promise.then(function(data) {
@@ -110,7 +113,7 @@
                                 vm.dvUser = vm.users[idx];
                             });
                     });
-            } 
+            }
 
         }
 
@@ -137,19 +140,6 @@
             }
 
         }
-        
-        //Function move to the server
-
-//        function _createNewDeviation() {
-//            var cnt;
-//            vm.new_date = new Date();
-//            var yr = vm.new_date.getFullYear().toString().substr(2, 2);
-//            getItemCount.getCount("Dev").then(function(data){
-//                cnt = data.count;
-//                vm._dvNo = "DV" + ((yr * 10000) + (cnt + 1));
-//            });
-//
-//        }
 
 
         function open ($event){
@@ -162,6 +152,7 @@
 
 
     function save (data, form, logMessage) {
+      // TODO: Check to see if the assigned person has changed if so set the owner change flag
         vm.submitted = true;
         if(form.$valid || logMessage == 'closed') {
             //Log out an audit trail message
@@ -218,4 +209,3 @@
 
 
 })();
-

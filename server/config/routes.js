@@ -72,18 +72,18 @@ module.exports = function(app, config) {
     req.logout();
     res.end();
   });
-    
+
 // application -------------------------------------------------------------
 //	app.get('*', function(req, res) {
 //		res.sendfile(config.appViews + 'layout.html'); // load the single view file (angular will handle the page changes on the front-end)
-//	});    
+//	});
 
   app.get('*', function(req, res) {
 //      console.log(req.user);
     res.render('index', {
       bootstrappedUser: req.user
-        
+
     });
-      
+
   });
 };

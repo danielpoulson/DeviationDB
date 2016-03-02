@@ -26,7 +26,7 @@ var rootPath = path.normalize(__dirname + '/../../');
 
 module.exports = {
     dev: {
-        db: 'mongodb://localhost/deviationDB',
+        db: 'mongodb://localhost/DeviationDB',
         rootPath: rootPath,
         staticFiles: rootPath + 'public/',
         appViews: rootPath + 'public/views/',
@@ -37,8 +37,8 @@ module.exports = {
         rootPath: rootPath,
         staticFiles: rootPath + 'build/',
         appViews: rootPath + 'build/views/',
-        views: 'views',
-        db: 'mongodb://localhost/deviationDB'
+        views: rootPath + 'build/views/',
+        db: 'mongodb://localhost/DeviationDB'
         //port: process.env.PORT || 8080
     }
 };

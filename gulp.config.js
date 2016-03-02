@@ -6,7 +6,7 @@
     var views = public + 'views/';
 
     var config = {
-    
+
         /**
          * Files paths
          */
@@ -65,8 +65,7 @@
          */
         bower: {
             json: require('./bower.json'),
-            directory: './bower_components/',
-            ignorePath: '../..'
+            directory: './bower_components/'
         },
 
         /**
@@ -80,8 +79,7 @@
     config.getWiredepDefaultOptions = function() {
         var options = {
             bowerJson: config.bower.json,
-            directory: config.bower.directory,
-            ignorePath: config.bower.ignorePath
+            directory: config.bower.directory
         };
         return options;
     };

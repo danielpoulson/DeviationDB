@@ -1,3 +1,6 @@
+#Ignore My Files #
+####################
+connection.js
 # Ignore Visual Studio  Project #
 ###################
 *.user

@@ -1,18 +1,15 @@
 var nodemailer = require('nodemailer');
 var mg = require('nodemailer-mailgun-transport');
+var connection = require('../utilities/connection');
 var path = require('path');
 var rootPath = path.normalize(__dirname);
 var fs = require('fs');
 
 exports.sendMail = function(toEmail, emailType, emailActivity) {
   var emailSubject = "You have been assigned ownership of a " + emailType;
-  // This is your API key that you retrieve from www.mailgun.com/cp (free up to 10K monthly emails)
 
   var auth = {
-    auth: {
-      api_key: 'key-d4288ca098eebff7793dfbe2aa943a7f',
-      domain: 'sandbox5c555bb04a2c41e6b4b4e733d1d0fe50.mailgun.org'
-    }
+    auth: connection.mailgun()
   }
 
   var nodemailerMailgun = nodemailer.createTransport(mg(auth));
@@ -25,7 +22,7 @@ exports.sendMail = function(toEmail, emailType, emailActivity) {
       <h3>You have been assigned ownership of this ${emailType}</h3></br> ${emailActivity} </br> ${html} </body></html>`;
     
     nodemailerMailgun.sendMail({
-        from: 'poulsondaniel@gmail.com',
+        from: 'devaitions@fmc.com',
         to: toEmail, // An array if you have multiple recipients.
         subject: emailSubject,
         //You can use "html:" to send HTML email content. It's magic!

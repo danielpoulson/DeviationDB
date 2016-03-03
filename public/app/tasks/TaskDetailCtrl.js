@@ -14,6 +14,7 @@
         vm.cancel = function () {
             $modalInstance.dismiss('cancel');
         };
+        vm.ChampOld = null;
         vm.deleteTask = deleteTask;
         vm.dvUser = '';
         vm.projectId = {};
@@ -68,6 +69,7 @@
                 return mvTask.getTask(vm.taskId)
                     .$promise.then(function(data){
                         vm.task = data;
+                        vm.ChampOld = vm.task.TKChamp;
                         }).then(function(){
                         return UserDataService.getAllUsers()
                             .$promise.then(function(users) {
@@ -108,6 +110,7 @@
 
             if (form.$valid) {
                 if (vm.taskId != 'new') {
+                    task.TKChampNew = vm.TKChamp === vm.ChampOld ? false : true;
                     return mvTask.saveTask(vm.taskId, task)
                         .$promise.then(success, failed);
                 }

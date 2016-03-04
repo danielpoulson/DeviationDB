@@ -11,7 +11,7 @@ var taskSchema = new Schema({
     TKCapa: {type: Number, required: '{PATH} is required!'},
     DevId: {type: String, required: '{PATH} is required!'},
     TKComment: String,
-    TKChampNew: Boolean
+    TKChampNew: {type: Boolean, default: false}
 });
 
 var Task = mongoose.model('Task', taskSchema);/**

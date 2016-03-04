@@ -110,7 +110,7 @@
 
             if (form.$valid) {
                 if (vm.taskId != 'new') {
-                    task.TKChampNew = vm.TKChamp === vm.ChampOld ? false : true;
+                    task.TKChampNew = task.TKChamp === vm.ChampOld ? false : true;
                     return mvTask.saveTask(vm.taskId, task)
                         .$promise.then(success, failed);
                 }

@@ -19,10 +19,12 @@ exports.getDeviationTaskList = function(req, res) {
 };
 
 exports.updateTask = function(req, res) {
+    var newOwner = req.body.TKChampNew;
+    req.body.TKChampNew = false;
     Task.findByIdAndUpdate({_id:req.params.id}, {$set: req.body}, function (err) {
         if (err) return handleError(err);
         res.send(200);
-        if(req.body.TKChampNew){
+        if(newOwner){
             createEmail(req.body);
         }
     });
@@ -65,7 +67,6 @@ function createEmail(body){
        setTimeout(() => resolve(toEmail), 2000);
     }).then(function(res){
         var _toEmail = res[0].email;
-            console.log(_toEmail);
         mailer.sendMail(_toEmail, emailType, emailActivity);
     }).catch(function (err) {
       console.log(err);
